@@ -64,7 +64,7 @@
                 browser_unsupported = true;
               }
               if (browser_unsupported) {
-                document.body.innerHTML = '<p>This demo currently requires a standards compliant Android browser (e.g. Firefox)</p>';
+                document.body.innerHTML = '<p>This demo currently requires a standards compliant Android browser (e.g. Firefox). NOTE: Chrome and Opera on Android have not correctly implemented the DeviceOrientation API. Please see <a href="http://lists.w3.org/Archives/Public/public-geolocation/2014Jan/0000.html">this post to the W3C GeoLocation Working Group</a> for more detailed information.</p>';
                 return;
               }
 
@@ -176,7 +176,7 @@
             capabilities: [],
             files: [],
             success: function() { 
-              document.body.innerHTML = '<p>This demo currently requires a standards compliant mobile browser (e.g. Firefox on Android)</p>';
+              document.body.innerHTML = '<p>This demo currently requires a standards compliant mobile browser (e.g. Firefox on Android). NOTE: iOS does not currently support WebGL or WebRTC and has not implemented the DeviceOrientation API correctly. Please see <a href="http://lists.w3.org/Archives/Public/public-geolocation/2014Jan/0000.html">this post to the W3C GeoLocation Working Group</a> for more detailed information.</p>';
               return;
             },
           },

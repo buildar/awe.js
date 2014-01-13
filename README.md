@@ -35,6 +35,8 @@ Once the `awe_ready` event is fired then your `awe.js` app is ready to start. Th
 
 To see this working try loading `examples/geo_ar/index.html` in a suitable standards compliant browser.
 
+NOTE: For more information on why Chrome and Opera aren't currently supported by this GEO AR demo please see this post to the W3C GeoLocation Working Group - http://lists.w3.org/Archives/Public/public-geolocation/2014Jan/0000.html
+
 
 How do you add objects to your scene?
 -------------------------------------
