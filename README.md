@@ -3,7 +3,7 @@ awe.js
 
 What is awe.js?
 ---------------
-It quickest and easiest way to create Augmented Web applications.
+It's the quickest and easiest way to create Augmented Web applications.
 
 Checkout our first quick demo on youtube http://youtu.be/OJHgBSRJNJY
 
