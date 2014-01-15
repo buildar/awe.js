@@ -705,6 +705,7 @@ function v8() {
       return _return(return_flag, return_value, errors, output_format);
     };
 
+
     this.constructor.prototype.error_handler = function(e, debug) {
       if (debug || this.debug) {
         if (e.code && e.message) {
@@ -724,10 +725,13 @@ function v8() {
         }
       }
     };
+    
+    this.constructor.prototype.toString = function() {
+    	return 'v8_object'
+    };
 
     return this;
   };
-
   return v8_object;
 }
 // END FILE:  v8.js

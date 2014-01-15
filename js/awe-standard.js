@@ -347,6 +347,7 @@
       };
 
       BODY.value = pov;
+      this_awe.scene().add(pov);
       this_awe.scene_needs_rendering = 1;
 
       return this.constructor.prototype.add.call(this, BODY, HEAD); // super
@@ -373,12 +374,11 @@
         if (fields_updated.length) {
           HEAD.fields_updated = fields_updated;
         }
-        if(BODY.data.duration && parseFloat(BODY.data.duration) > 0) {
-          _tween({
-            duration: parseFloat(BODY.data.duration),
-            mesh: this_awe.pov(),
+        if(BODY.data.animation && parseFloat(BODY.data.animation.duration) > 0) {
+        	_tween(_extend({
+            mesh: this_awe.projections.view(BODY.where.id).mesh,
             end_state: BODY.data
-          })
+          }, BODY.data.animation));
         }
         else {
           _update_mesh_io(BODY.data, this_awe.pov());
@@ -440,13 +440,11 @@
         if (fields_updated.length) {
           HEAD.fields_updated = fields_updated;
         }
-        
-        if(BODY.data.duration && parseFloat(BODY.data.duration) > 0) {
-          _tween({
-            duration: parseFloat(BODY.data.duration),
-            mesh: this_awe.pois.view(BODY.where.id).origin.mesh,
+        if(BODY.data.animation && parseFloat(BODY.data.animation.duration) > 0) {
+        	_tween(_extend({
+            mesh: this_awe.projections.view(BODY.where.id).mesh,
             end_state: BODY.data
-          })
+          }, BODY.data.animation));
         }
         else {
           _update_mesh_io(BODY.data, this_awe.pois.view(BODY.where.id).origin.mesh);
@@ -491,15 +489,24 @@
     this_awe.constructor.prototype.projections.add = function(BODY, HEAD) {
       if (!BODY) { BODY = {}; }
       if (!HEAD) { HEAD = {}; }
-      var geometry, material, mesh;
+      var geometry, material, mesh, parent;
       if (!BODY.id) {
          throw 'BODY.id required';
        }
       if (this_awe.projections.view(BODY.id)) {
         throw 'BODY.id already exists';
       }
-      if (!HEAD.poi_id) {
-        throw 'HEAD.poi_id required';
+      if (HEAD.parent && HEAD.parent.object_id && HEAD.parent.object_type && this_awe[HEAD.parent.object_type+'s'] && ''+this_awe[HEAD.parent.object_type+'s'] == 'v8_object')  {
+				try {
+		      parent = this_awe[HEAD.parent.object_type+'s'].view(HEAD.parent.object_id);
+	      }
+	      catch(e) {}
+      }
+      else if (HEAD.poi_id) {
+	      parent = this_awe.pois.view(HEAD.poi_id);
+      }
+      if (!parent) {
+        throw 'HEAD.poi_id or HEAD.parent required';
       }
       if (!BODY.material) {
         BODY.material = {};
@@ -525,7 +532,6 @@
         BODY.sound.panner.setPosition(position.x, position.y, position.z);
         this_awe.sounds.add(BODY.sound);
       }
-      var poi = this_awe.pois.view(HEAD.poi_id);
       if (BODY.geometry) {
         if (BODY.geometry.shape) {
           var shape = _validate_shape(BODY.geometry);
@@ -576,6 +582,9 @@
                 BODY.texture.height = BODY.geometry.y; 
               }
               var texture_id = this_awe.textures.add(BODY.texture);
+							if (BODY.texture.color) {
+								BODY.material.color = BODY.texture.color;
+							}
               BODY.material.map = this_awe.textures.view(texture_id);
             }
             var material_id = this_awe.materials.add(BODY.material);
@@ -590,7 +599,12 @@
             loader = new THREE.OBJMTLLoader();
             loader.load(BODY.geometry.path, BODY.material.path, function(mesh) {
               BODY.mesh = _update_mesh_io(BODY, mesh, true);
-              poi.origin.mesh.add(BODY.mesh);
+              if (parent.origin) {
+	            	parent.origin.mesh.add(BODY.mesh); 
+              }
+              else {
+	              parent.add(BODY.mesh); 
+              }
               var _clickable_id = _clickable_objects.length;
               BODY.mesh.projection_id = BODY.id; 
               _clickable_objects.push(BODY.mesh);
@@ -625,7 +639,13 @@
                 }
               });
               BODY.mesh = _update_mesh_io(BODY, mesh, true);
-              poi.origin.mesh.add(BODY.mesh);
+              if (parent.origin) {
+	            	parent.origin.mesh.add(BODY.mesh); 
+              }
+              else {
+	              parent.add(BODY.mesh); 
+              }
+              
               var _clickable_id = _clickable_objects.length;
               BODY.mesh.projection_id = BODY.id; 
               _clickable_objects.push(BODY.mesh);
@@ -661,12 +681,18 @@
         BODY.mesh.projection_id = result.id; 
         _clickable_objects.push(BODY.mesh);
         this_awe.projections.update({ data:{ _clickable_object_id:_clickable_id }, where:{ id:result.id } });
-        poi.origin.mesh.add(BODY.mesh);
+        
+        if (parent.origin) {
+        	parent.origin.mesh.add(BODY.mesh); 
+        }
+        else {
+          parent.add(BODY.mesh); 
+        }
       }
-      if (!poi.projections) {
-        poi.projections = [];
+      if (!parent.projections) {
+        parent.projections = [];
       }
-      poi.projections.push(projection.id);
+      parent.projections.push(projection.id);
       var event = new CustomEvent('projection_loaded', {detail: BODY.id});
       window.dispatchEvent(event);
       return result;
@@ -705,12 +731,11 @@
         if (fields_updated.length) {
           HEAD.fields_updated = fields_updated;
         }
-        if(BODY.data.duration && parseFloat(BODY.data.duration) > 0) {
-          _tween({
-            duration: parseFloat(BODY.data.duration),
+        if(BODY.data.animation && parseFloat(BODY.data.animation.duration) > 0) {
+          _tween(_extend({
             mesh: this_awe.projections.view(BODY.where.id).mesh,
             end_state: BODY.data
-          })
+          }, BODY.data.animation));
         }
         else {
           BODY.mesh = _update_mesh_io(BODY.data, this_awe.projections.view(BODY.where.id).mesh);
@@ -960,19 +985,19 @@
 			var accuracy = 7;
 			return {
 				rotation: {
-					x: THREE.Math.radToDeg(mesh.rotation.x).toFixed(accuracy),
-					y: THREE.Math.radToDeg(mesh.rotation.y).toFixed(accuracy),
-					z: THREE.Math.radToDeg(mesh.rotation.z).toFixed(accuracy)
+					x: parseFloat(THREE.Math.radToDeg(mesh.rotation.x).toFixed(accuracy)),
+					y: parseFloat(THREE.Math.radToDeg(mesh.rotation.y).toFixed(accuracy)),
+					z: parseFloat(THREE.Math.radToDeg(mesh.rotation.z).toFixed(accuracy))
 				},
 				scale: {
-					x: mesh.scale.x.toFixed(accuracy),
-					y: mesh.scale.y.toFixed(accuracy),
-					z: mesh.scale.z.toFixed(accuracy)
+					x: parseFloat(mesh.scale.x.toFixed(accuracy)),
+					y: parseFloat(mesh.scale.y.toFixed(accuracy)),
+					z: parseFloat(mesh.scale.z.toFixed(accuracy))
 				},
 				position: {
-					x: mesh.position.x.toFixed(accuracy),
-					y: mesh.position.y.toFixed(accuracy),
-					z: mesh.position.z.toFixed(accuracy)
+					x: parseFloat(mesh.position.x.toFixed(accuracy)),
+					y: parseFloat(mesh.position.y.toFixed(accuracy)),
+					z: parseFloat(mesh.position.z.toFixed(accuracy))
 				}
 			};
 		}
@@ -993,7 +1018,7 @@
 						if (target === copy) {
 							continue;
 						}
-						if (copy) {
+						if (copy !== undefined) {
 							target[name] = copy;
 						}
 					}
@@ -1090,6 +1115,7 @@
 			if (!io) {
 				io = {};
 			}
+			
 			if (!io.geometry) {
 				io.geometry = {};
 			}
@@ -1370,20 +1396,38 @@
 				var step = get_step_data(increment);
 				steps.push(step);
 			}
-			
-			tween_queue[io.mesh.id] = {
+			var tween_data = {
 				mesh: io.mesh,
 				data: {
 					advancement: 0,
 					steps: steps,
-					repeat: io.repeat,
+					end_state: io.end_state,
+					repeat: io.repeat ? parseInt(io.repeat, 10) : 0,
+					delay: io.delay,
+					end_callback: io.end_callback,
+					step_callback: io.step_callback,
+					start_callback: io.start_callback,
 					start_state: start_state,
 					persist: io.persist
 				}
 			};
+			if (io.delay && parseFloat(io.delay)) {
+				setTimeout(function(){
+					tween_queue[io.mesh.id] = tween_data;
+				}, io.delay*1000);
+			}
+			else {
+				tween_queue[io.mesh.id] = tween_data;
+			}
 		}
 		
 		function _finish_tween(mesh_id) {
+			var data = tween_queue[mesh_id].data;
+			if (data.end_callback && typeof(data.end_callback) == 'function') {
+				data.end_callback({
+					mesh: tween_queue[mesh_id].mesh
+				})
+			}
 			delete(tween_queue[mesh_id]);
 		}
 
@@ -1456,7 +1500,7 @@
 						if (t.video && t.video.readyState === t.video.HAVE_ENOUGH_DATA) {
 							if (t.cc) {
 								try {
-									t.cc.drawImage(t.video, 0, 0);
+									t.cc.drawImage(t.video, 0, 0, t.cc.canvas.width, t.cc.canvas.height);
 									t.needsUpdate = true;
 									this_awe.scene_needs_rendering = 1;
 								}
@@ -1476,9 +1520,17 @@
 							mesh = tween_queue[i].mesh,
 							count = 0,
 							transform = new _transform(),
+							steps_total = transform_data.steps.length,
 							step;
-						if (!transform_data.current_step) {
+							
+						if (transform_data.current_step === undefined) {
 							transform_data.current_step = 0;
+							// start callback
+							if (transform_data.start_callback && typeof(transform_data.start_callback) == 'function') {
+								transform_data.start_callback({
+									mesh: mesh
+								});
+							}
 						}
 						if (!mesh) {
 							console.log('no mesh')
@@ -1486,7 +1538,7 @@
 						}
 						var min_ts = transform_data.advancement;
 						var max_ts = transform_data.advancement+dt;
-						for (var j=0,m=transform_data.steps.length; j<m; j++) {
+						for (var j=0; j<steps_total; j++) {
 							var s = transform_data.steps[j],
 								tr = s.transform,
 								ts = s.ts;
@@ -1501,24 +1553,42 @@
 							try {
 								var current_transform = _get_mesh_state(mesh);
 								var n = transform.data();
-								_update_mesh_io(transform_data.steps[step].transform, mesh);
+								_update_mesh_io(_extend({}, transform_data.steps[step].transform), mesh);
 								this_awe.scene_needs_rendering = 1;
 								transform_data.current_step = step;
+								// step callback
+								if (transform_data.step_callback && typeof(transform_data.step_callback) == 'function') {
+									transform_data.step_callback({
+										mesh: mesh,
+										step: step,
+										steps_total: steps_total
+									});
+								}
 							}
 							catch(e) {
 								this_awe.error_handler(e);
 							}
 						}
 						if (step && step == transform_data.steps.length-1) {
-							if (parseInt(transform_data.repeat, 10)) {						
-								_update_mesh_io(transform_data.start_state, mesh);
+							if (!isNaN(transform_data.repeat) && transform_data.repeat > 1) {
+								transform_data.repeat--;
+								var start_state = _extend({}, transform_data.start_state);
+								_update_mesh_io(start_state, mesh);
 								transform_data.advancement = 0;
+								delete(transform_data.current_step);
+								if (transform_data.end_callback && typeof(transform_data.end_callback) == 'function') {
+									transform_data.end_callback({
+										mesh: mesh
+									});
+								}
 							}
 							else if (!parseInt(transform_data.persist, 10)) {
-								_update_mesh_io(transform_data.start_state, mesh);
+								var start_state = _extend({}, transform_data.start_state);
+								_update_mesh_io(start_state, mesh);
 								_finish_tween(mesh.id);
 							}
 							else {
+								_update_mesh_io(_extend({}, transform_data.end_state), mesh);
 								_finish_tween(mesh_id);
 							}
 						}
