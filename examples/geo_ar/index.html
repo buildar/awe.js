@@ -76,7 +76,9 @@
                 var p = awe.projections.view(e.detail.projection_id);
                 awe.projections.update({ // rotate clicked object by 180 degrees around x and y axes over 10 seconds
                   data:{
-                    duration: 10,
+                    animation: {
+                      duration: 10,
+                    },
                     rotation:{ y: p.rotation.y+180, x: p.rotation.x+180 }
                   },
                   where:{ id:e.detail.projection_id }
