@@ -17,6 +17,8 @@ It uses WebRTC, WebGL and the modern sensor APIs to bring Augmented Reality and 
 
 How do you create an awe.js app?
 --------------------------------
+You can <a href="https://buildar.com/awe/tutorials/intro_to_awe.js/index.html">checkout the "Intro to awe.js" tutorial</a>. Or just follow the basic overview below.
+
 Just add a `<script src='js/awe.js'></script>` tag to your html page to turn that page into an Augmented Web application.
 
 Now you are ready to create adaptive Augmented Web Experiences. `awe.js` allows you to easily create and manage 3d objects, add and manage Video and Audio streams and integrate automatic handling of sensor driven data feeds.
