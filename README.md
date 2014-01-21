@@ -132,5 +132,6 @@ Known issues
 - Canvas/Video size updating in Firefox on the Marker AR example is somewhat borken leading to skewed tracking. Debugging continues.
 - .update() with visible:false doesn't get applied to all the children in .obj models/meshes for projections. Debugging continues.
 - Video textures don't work on Chrome M32/M33. Bug being raised.
+- Spatialised audio has problems on Android browsers. Debugging continues.
 - Spatialised audio doesn't play on Firefox when location is 0,0,0. Bug raised.
 - Examples can take a while to load on some networks so we they need a nice loading indicator/spinner.
