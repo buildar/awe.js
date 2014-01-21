@@ -124,4 +124,13 @@ What's next
 Over the next few weeks and months we will be adding a lot of new examples and tutorials here on github. You can stay tuned by following http://twitter.com/buildAR for more information and don't forget to checkout the video of our Geo AR demo http://youtu.be/OJHgBSRJNJY and Marker AR demo http://youtu.be/X_XR9VbQPeE 
 
 Welcome to the future of the web - the Augmented Web!
- 
+
+
+Known issues
+------------
+- DeviceOrientation API varies wildly across browsers. Chrome M32 is now spec compliant in general but the data seems to contain a lot of noise. Firefox is not necessarily spec compliant but does deliver the best overall UX. Testing on other browsers and working with all the vendors and the W3C GeoLocation Working Group continues.
+- Canvas/Video size updating in Firefox on the Marker AR example is somewhat borken leading to skewed tracking. Debugging continues.
+- .update() with visible:false doesn't get applied to all the children in .obj models/meshes for projections. Debugging continues.
+- Video textures don't work on Chrome M32/M33. Bug being raised.
+- Spatialised audio doesn't play on Firefox when location is 0,0,0. Bug raised.
+- Examples can take a while to load on some networks so we they need a nice loading indicator/spinner.
