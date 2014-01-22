@@ -130,7 +130,7 @@ Welcome to the future of the web - the Augmented Web!
 
 Known issues
 ------------
-- DeviceOrientation API varies wildly across browsers. Chrome M32 is now spec compliant in general but the data seems to contain a lot of noise. Firefox is not necessarily spec compliant but does deliver the best overall UX. Testing on other browsers and working with all the vendors and the W3C GeoLocation Working Group continues.
+- DeviceOrientation API varies wildly across browsers. Chrome M33 is now spec compliant. Firefox is not necessarily spec compliant but does deliver a good UX. Testing on other browsers and working with all the vendors and the W3C GeoLocation Working Group continues.
 - Canvas/Video size updating in Firefox on the Marker AR example is somewhat borken leading to skewed tracking. Debugging continues.
 - .update() with visible:false doesn't get applied to all the children in .obj models/meshes for projections. Debugging continues.
 - Video textures don't work on Chrome M32/M33. Bug being raised.
