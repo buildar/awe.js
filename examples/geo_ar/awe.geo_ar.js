@@ -1,7 +1,6 @@
 (function(awe) {
 	var container = document.getElementById('container');
 	var background_video;
-  var last_alpha;
 	
 	function resize_video() {
 		if (background_video) {
@@ -99,42 +98,50 @@
 				handler: function(e) {
 					var alpha = e.alpha,
 					    beta = e.beta,
-              gamma = e.gamma;
-          
-          var alpha_diff = alpha-last_alpha;
-          last_alpha = alpha;
-          if (alpha_diff > -10 && alpha_diff < 10) {
-            var x = 0;
-            var y = 0;
-            var z = 0;
-            if (gamma < 50) { // allow for small rotation in landscape mode
-              // in portrait mode
-                // beta is from 0 (screen up) to -180 (screen down)
-                x = -beta+90;
-                y = -(alpha%360);
-                z = 180;
+              gamma = e.gamma,
+              x = 0,
+              y = 0,
+              z = 0;
+
+          if (navigator.userAgent.match(/firefox/i)) {
+            if (gamma < 50) { //TODO fix this
+              // portrait
+              x = -beta+90;
+              y = -(alpha%360);
+              z = 180;
             } else {
               // in landscape mode
-                // gamma only goes -90/90 so ignore up/down in landscape mode
-                x = 0;
-                y = -(alpha%360);
-                z = 0;
+              y = -(alpha%360);
             }
-                      
-            awe.povs.update({
-              data: {
-                euler_order: 'YZX',
-                rotation: {
-                  x: x,
-                  y: y,
-                  z: z,
-                }
-              },
-              where: {
-                id: 'default'
+          } else {
+            if ((beta > 30 && beta < 150) || // device is generally upright (portrait)
+                (beta < -30 && beta > -150)) { // device is generally upright but inverted (portrait)
+              x = beta+90;
+              y = ((alpha+gamma)%360);
+              z = 180;
+            } else { // device is generally not-upright (landscape)
+              if (gamma < 0 && gamma > -90) { // rotation below horizon
+                x = -gamma-90;
+              } else { // rotation above horizon
+                x = 90-gamma;
               }
-            });
-					}
+              y = (alpha+gamma+180)%360;
+            }
+          }
+
+          awe.povs.update({
+            data: {
+              euler_order: 'YZX',
+              rotation: {
+                x: x,
+                y: y,
+                z: z,
+              }
+            },
+            where: {
+              id: 'default'
+            }
+          });
 				}
 			});
 			
