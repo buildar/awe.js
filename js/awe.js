@@ -1091,10 +1091,13 @@ function v8() {
             }
           }
         }
+
         // orientation enabled
         if (!!window.DeviceOrientationEvent) {
-          var s1 = function() {
-            io.gyro = true;
+          var s1 = function(e) {
+            if (e.alpha !== null) {
+              io.gyro = true;
+            }
             window.removeEventListener('deviceorientation', s1, true);
             finished();
           }
@@ -1104,7 +1107,7 @@ function v8() {
             if (!io.gyro) {
               finished();
             }
-          }, 300)
+          }, 3000)
         }
         else {
           finished();
@@ -1112,8 +1115,10 @@ function v8() {
 
         // motion enabled
         if (!!window.DeviceMotionEvent) {
-          var s2 = function() {
-            io.motion = true;
+          var s2 = function(e) {
+            if (e.acceleration !== null) {
+              io.motion = true;
+            }
             window.removeEventListener('devicemotion', s2, true);
             finished();
           }
@@ -1123,7 +1128,7 @@ function v8() {
             if (!io.motion) {
               finished();
             }
-          }, 300)
+          }, 3000)
         }
         else {
           finished();
