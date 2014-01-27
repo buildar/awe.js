@@ -376,7 +376,7 @@
         }
         if(BODY.data.animation && parseFloat(BODY.data.animation.duration) > 0) {
         	_tween(_extend({
-            mesh: this_awe.projections.view(BODY.where.id).mesh,
+            mesh: this_awe.projections.view(BODY.where.id).mesh, // TODO this is a bug so need to refactor tweening to support pov().position
             end_state: BODY.data
           }, BODY.data.animation));
         }
@@ -442,7 +442,7 @@
         }
         if(BODY.data.animation && parseFloat(BODY.data.animation.duration) > 0) {
         	_tween(_extend({
-            mesh: this_awe.projections.view(BODY.where.id).mesh,
+            mesh: this_awe.pois.view(BODY.where.id).origin.mesh,
             end_state: BODY.data
           }, BODY.data.animation));
         }
@@ -1313,7 +1313,7 @@
 			if (!io.mesh || !io.end_state) { 
 				return;
 			}
-			
+
 			if (tween_queue[io.mesh.id]) {
 				console.log('already animating this mesh - sorry!')
 				return;
@@ -1423,12 +1423,13 @@
 		
 		function _finish_tween(mesh_id) {
 			var data = tween_queue[mesh_id].data;
+      var mesh = tween_queue[mesh_id].mesh;
+			delete(tween_queue[mesh_id]);
 			if (data.end_callback && typeof(data.end_callback) == 'function') {
 				data.end_callback({
-					mesh: tween_queue[mesh_id].mesh
+					mesh: mesh
 				})
 			}
-			delete(tween_queue[mesh_id]);
 		}
 
     function _load_sound(io) {
