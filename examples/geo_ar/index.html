@@ -54,17 +54,17 @@
             ],
             success: function() { 
               // limit demo to supported devices
-              // NOTE: even though chrome & opera on android support the right standards they have implemented the geolocation api incorrectly
-              //       so for now we are excluding them to make sure your first experience is a happy one
+              // NOTE: only Chrome and Firefox has implemented the DeviceOrientation API in a workable way
+              //       so for now we are excluding all others to make sure your first experience is a happy one
               var device_type = awe.device_type();
               var browser_unsupported = false;
               if (device_type != 'android') {
                 browser_unsupported = true;
-              } else if (!navigator.userAgent.match(/firefox/i)) {
+              } else if (!navigator.userAgent.match(/chrome|firefox/i)) {
                 browser_unsupported = true;
               }
               if (browser_unsupported) {
-                document.body.innerHTML = '<p>This demo currently requires a standards compliant Android browser (e.g. Firefox). NOTE: Chrome and Opera on Android have not correctly implemented the DeviceOrientation API. Please see <a href="http://lists.w3.org/Archives/Public/public-geolocation/2014Jan/0000.html">this post to the W3C GeoLocation Working Group</a> for more detailed information.</p>';
+                document.body.innerHTML = '<p>This demo currently requires a standards compliant Android browser (e.g. Chrome M33).</p>';
                 return;
               }
 
