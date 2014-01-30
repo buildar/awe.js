@@ -1107,7 +1107,7 @@ function v8() {
             if (!io.gyro) {
               finished();
             }
-          }, 3000)
+          }, 30000)
         }
         else {
           finished();
@@ -1128,7 +1128,7 @@ function v8() {
             if (!io.motion) {
               finished();
             }
-          }, 3000)
+          }, 30000)
         }
         else {
           finished();

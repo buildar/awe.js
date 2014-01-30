@@ -364,7 +364,9 @@
           for (var p in BODY.data.position) {
             position[p] = BODY.data.position[p];
           }
-          this_awe.util.audio_context.listener.setPosition(position.x, position.y, position.z);
+          if (this_awe.capabilities.view("audio")) {
+            this_awe.util.audio_context.listener.setPosition(position.x, position.y, position.z);
+          }
         } 
         if (BODY.data.scale) { fields_updated.push('scale'); } 
         if (BODY.data.rotation) { 
@@ -515,22 +517,24 @@
         BODY.texture = {};
       }
       if (BODY.sound) {
-        if (BODY.sound.path == undefined) {
-          throw "sound path required";
-        }
-        BODY.sound.source = this_awe.util.audio_context.createBufferSource();
-        BODY.sound.panner = this_awe.util.audio_context.createPanner();
-        BODY.sound.source.connect(BODY.sound.panner);
-        BODY.sound.panner.connect(this_awe.util.audio_context.destination);
-        BODY.sound.panner.refDistance = 100;
-        var position = { x:0, y:0, z:0 };
-        if (BODY.position !== undefined) {
-          for (var p in BODY.position) {
-            position[p] = BODY.position[p];
+        if (this_awe.capabilities.view("audio")) {
+          if (BODY.sound.path == undefined) {
+            throw "sound path required";
           }
+          BODY.sound.source = this_awe.util.audio_context.createBufferSource();
+          BODY.sound.panner = this_awe.util.audio_context.createPanner();
+          BODY.sound.source.connect(BODY.sound.panner);
+          BODY.sound.panner.connect(this_awe.util.audio_context.destination);
+          BODY.sound.panner.refDistance = 100;
+          var position = { x:0, y:0, z:0 };
+          if (BODY.position !== undefined) {
+            for (var p in BODY.position) {
+              position[p] = BODY.position[p];
+            }
+          }
+          BODY.sound.panner.setPosition(position.x, position.y, position.z);
+          this_awe.sounds.add(BODY.sound);
         }
-        BODY.sound.panner.setPosition(position.x, position.y, position.z);
-        this_awe.sounds.add(BODY.sound);
       }
       if (BODY.geometry) {
         if (BODY.geometry.shape) {
@@ -921,15 +925,17 @@
 
     this_awe.constructor.prototype.sounds = new v8();
     this_awe.constructor.prototype.sounds.add = function(BODY, HEAD) {
-      if (!BODY) { BODY = {}; }
-      if (!HEAD) { HEAD = {}; }
-      var id = BODY.id || "sound-"+new Date().getTime()+'-'+Math.round(Math.random()*1000);
-      delete BODY.id;
-      if (BODY.autoplay == undefined) {
-        BODY.autoplay = true;
+      if (this_awe.capabilities.view("audio")) {
+        if (!BODY) { BODY = {}; }
+        if (!HEAD) { HEAD = {}; }
+        var id = BODY.id || "sound-"+new Date().getTime()+'-'+Math.round(Math.random()*1000);
+        delete BODY.id;
+        if (BODY.autoplay == undefined) {
+          BODY.autoplay = true;
+        }
+        _load_sound(BODY);
+        return this.constructor.prototype.add.call(this, { id: id, value: BODY }); // super
       }
-      _load_sound(BODY);
-      return this.constructor.prototype.add.call(this, { id: id, value: BODY }); // super
     }
 
     this_awe.constructor.prototype.tween_functions = new v8();
@@ -1477,19 +1483,21 @@
     }
 
     function _map_audio_listener_to_pov() {
-      var m = this_awe.pov().matrix;
-      var mx = m.n14, my = m.n24, mz = m.n34;
-      m.n14 = m.n24 = m.n34 = 0;
-      var vec = new THREE.Vector3(0,0,1);
-      m.multiplyVector3(vec);
-      vec.normalize();
-      var up = new THREE.Vector3(0,1,0);
-      m.multiplyVector3(up);
-      up.normalize();
-      this_awe.util.audio_context.listener.setOrientation(vec.x, vec.y, vec.z, up.x, up.y, up.z);
-      m.n14 = mx;
-      m.n24 = my; 
-      m.n34 = mz;
+      if (this_awe.capabilities.view("audio")) {
+        var m = this_awe.pov().matrix;
+        var mx = m.n14, my = m.n24, mz = m.n34;
+        m.n14 = m.n24 = m.n34 = 0;
+        var vec = new THREE.Vector3(0,0,1);
+        m.multiplyVector3(vec);
+        vec.normalize();
+        var up = new THREE.Vector3(0,1,0);
+        m.multiplyVector3(up);
+        up.normalize();
+        this_awe.util.audio_context.listener.setOrientation(vec.x, vec.y, vec.z, up.x, up.y, up.z);
+        m.n14 = mx;
+        m.n24 = my; 
+        m.n34 = mz;
+      }
     }
 
 		function _tick() {
