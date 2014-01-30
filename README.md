@@ -5,8 +5,10 @@ What is awe.js?
 ---------------
 It's the quickest and easiest way to create Augmented Web applications.
 
-Checkout our Geo AR demo http://youtu.be/OJHgBSRJNJY and Marker AR demo http://youtu.be/X_XR9VbQPeE
-
+Checkout our demos showing AR in standard web browsers:
+- Location based AR http://youtu.be/OJHgBSRJNJY
+- Marker based AR http://youtu.be/X_XR9VbQPeE
+- Oculus Rift based AR http://youtu.be/kIHih4Cc1ag
 
 What is the Augmented Web?
 --------------------------
@@ -123,7 +125,7 @@ Example projections.add data structure
 
 What's next
 -----------
-Over the next few weeks and months we will be adding a lot of new examples and tutorials here on github. You can stay tuned by following http://twitter.com/buildAR for more information and don't forget to checkout the video of our Geo AR demo http://youtu.be/OJHgBSRJNJY and Marker AR demo http://youtu.be/X_XR9VbQPeE 
+Over the next few weeks and months we will be adding a lot of new examples and tutorials here on github. You can stay tuned by following http://twitter.com/buildAR for more information and don't forget to checkout the video of our Geo AR demo http://youtu.be/OJHgBSRJNJY, our Marker AR demo http://youtu.be/X_XR9VbQPeE and our GRiftAR (gUM + Rift + awe.js) demo http://youtu.be/kIHih4Cc1ag 
 
 Welcome to the future of the web - the Augmented Web!
 
