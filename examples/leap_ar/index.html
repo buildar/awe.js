@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AWE Leap AR demo</title>
+<style type="text/css">
+* {
+  margin: 0;
+  padding: 0;
+}
+#container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+}
+</style>
+</head>
+<body>
+<div id="container"></div>
+<script type="text/javascript" src="../../js/awe.js"></script>
+<script type="text/javascript">
+  var leap_vertical = 0, leap_yaw = 0, leap_roll = 0, leap_pitch = 0;
+  window.addEventListener('load', function() {
+    window.awe.init({
+      device_type: awe.AUTO_DETECT_DEVICE_TYPE,
+      settings: {
+        container_id: 'container',
+        default_camera_position: { x:0, y:0, z:0 },
+        default_lights:[
+          {
+            id: 'point_light',
+            type: 'point',
+            color: 0xFFFFFF,
+          },
+        ],
+      },
+      ready: function() {
+        awe.util.require([
+          {
+            capabilities: ['gum','webgl'],
+            files: [ 
+              [ '../../js/awe-standard-dependencies.js', '../../js/awe-standard.js'],
+              '../marker_ar/awe-jsartoolkit-dependencies.js',
+              '../marker_ar/awe.marker_ar.js',
+              'leap.min-0.3.0.js',
+              'awe.leap_ar.js',
+            ],
+            success: function() { 
+              awe.setup_scene();      
+              awe.pois.add({ id:'poi_1', position: { x:0, y:0, z:-10000 }, visible: false });
+              awe.projections.add({ 
+                id:'projection_1', 
+                geometry: { shape: 'cube', x:120, y:120, z:120 },
+                material:{ type: 'phong', color: 0xFFFFFF }, 
+                texture: { path: '../marker_ar/awe_by_buildAR.png' },
+              }, { poi_id: 'poi_1' });
+              awe.events.add([{
+                id: 'ar_tracking_marker',
+                device_types: {
+                  pc: 1,
+                },
+                register: function(handler) {
+                  window.addEventListener('ar_tracking_marker', handler, false);
+                },
+                unregister: function(handler) {
+                  window.removeEventListener('ar_tracking_marker', handler, false);
+                },
+                handler: function(event) {
+                  if (event.detail) {
+                    if (event.detail['64']) { // we are mapping marker #64 to this projection
+                      var t = event.detail['64'].transform;
+                      awe.pois.update({
+                        data: {
+                          visible: true,
+                          position: { x:0, y:0, z:0 },
+                          matrix: t, 
+                        },
+                        where: {
+                          id: 'poi_1'
+                        }
+                      });
+                      awe.projections.update({
+                        data: {
+                          rotation: { x:THREE.Math.radToDeg(leap_pitch), y:THREE.Math.radToDeg(leap_yaw), z:THREE.Math.radToDeg(leap_roll) },
+                          position: { y:leap_vertical },
+                        },
+                        where: {
+                          id: 'projection_1'
+                        }
+                      });
+                    }
+                    else {
+                      awe.pois.update({
+                        data: {
+                          visible: false
+                        },
+                        where: {
+                          id: 'poi_1'
+                        }
+                      });
+                    }
+                    awe.scene_needs_rendering = 1;
+                  }
+                }
+              },
+              {
+                id: 'leap_tracking_client',
+                device_types: {
+                  pc: 1,
+                },
+                register: function(handler) {
+                  window.addEventListener('leap_tracking', handler, false);
+                },
+                unregister: function(handler) {
+                  window.removeEventListener('leap_tracking', handler, false);
+                },
+                handler: function(event) {
+                  if (event.detail.frame.hands.length > 0) {
+                    leap_vertical = event.detail.frame.hands[0].palmPosition[1];
+                    leap_yaw = -event.detail.frame.hands[0].yaw(); 
+                    leap_pitch = -event.detail.frame.hands[0].pitch(); 
+                    leap_roll = -event.detail.frame.hands[0].roll(); 
+                  }
+                }
+              }])
+            },
+          },
+          {
+            capabilities: [],
+            success: function() { 
+              document.body.innerHTML = '<p>Try this demo in the latest version of Chrome or Firefox on a PC - NOTE: You will also require a <a href="http://leapmotion.com/">Leap Motion</a> sensor</p>';
+            },
+          },
+        ]);
+      }
+    });
+  });
+</script>
+</body>
+</html>
