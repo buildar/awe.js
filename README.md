@@ -9,6 +9,7 @@ Checkout our demos showing AR in standard web browsers:
 - Location based AR http://youtu.be/OJHgBSRJNJY
 - Marker based AR http://youtu.be/X_XR9VbQPeE
 - Oculus Rift based AR http://youtu.be/kIHih4Cc1ag
+- Leap Motion Sensor AR http://youtu.be/mDbvPU4aokQ
 
 What is the Augmented Web?
 --------------------------
@@ -125,7 +126,7 @@ Example projections.add data structure
 
 What's next
 -----------
-Over the next few weeks and months we will be adding a lot of new examples and tutorials here on github. You can stay tuned by following http://twitter.com/buildAR for more information and don't forget to checkout the video of our Geo AR demo http://youtu.be/OJHgBSRJNJY, our Marker AR demo http://youtu.be/X_XR9VbQPeE and our GRiftAR (gUM + Rift + awe.js) demo http://youtu.be/kIHih4Cc1ag 
+Over the next few weeks and months we will be adding a lot of new examples and tutorials here on github. You can stay tuned by following http://twitter.com/buildAR for more information and don't forget to checkout the video of our Geo AR demo http://youtu.be/OJHgBSRJNJY, our Marker AR demo http://youtu.be/X_XR9VbQPeE, our GRiftAR (gUM + Rift + awe.js) demo http://youtu.be/kIHih4Cc1ag and our Leap Motion Sensor AR demo http://youtu.be/mDbvPU4aokQ 
 
 Welcome to the future of the web - the Augmented Web!
 
@@ -135,7 +136,7 @@ Known issues
 - DeviceOrientation API varies wildly across browsers. Chrome M33 is now spec compliant. Firefox is not necessarily spec compliant but does deliver a good UX. Testing on other browsers and working with all the vendors and the W3C GeoLocation Working Group continues.
 - Canvas/Video size updating in Firefox on the Marker AR example is somewhat borken leading to skewed tracking. Debugging continues.
 - .update() with visible:false doesn't get applied to all the children in .obj models/meshes for projections. Debugging continues.
-- Video textures don't work on Chrome M32/M33. Bug being raised.
+- Video textures don't work on Chrome M32/M33. Bug raised.
 - Spatialised audio has problems on Android browsers. Debugging continues.
 - Spatialised audio doesn't play on Firefox when location is 0,0,0. Bug raised.
 - Examples can take a while to load on some networks so we they need a nice loading indicator/spinner.
