@@ -103,30 +103,18 @@
               y = 0,
               z = 0;
 
-          if (navigator.userAgent.match(/firefox/i)) {
-            if (gamma < 50) { //TODO fix this
-              // portrait
-              x = -beta+90;
-              y = -(alpha%360);
-              z = 180;
-            } else {
-              // in landscape mode
-              y = -(alpha%360);
+          if ((beta > 30 && beta < 150) || // device is generally upright (portrait)
+              (beta < -30 && beta > -150)) { // device is generally upright but inverted (portrait)
+            x = beta+90;
+            y = (alpha+gamma)%360;
+            z = 180;
+          } else { // device is generally not-upright (landscape)
+            if (gamma < 0 && gamma > -90) { // rotation below horizon
+              x = -gamma-90;
+            } else { // rotation above horizon
+              x = 90-gamma;
             }
-          } else {
-            if ((beta > 30 && beta < 150) || // device is generally upright (portrait)
-                (beta < -30 && beta > -150)) { // device is generally upright but inverted (portrait)
-              x = beta+90;
-              y = ((alpha+gamma)%360);
-              z = 180;
-            } else { // device is generally not-upright (landscape)
-              if (gamma < 0 && gamma > -90) { // rotation below horizon
-                x = -gamma-90;
-              } else { // rotation above horizon
-                x = 90-gamma;
-              }
-              y = (alpha+gamma+180)%360;
-            }
+            y = (alpha+gamma+180)%360;
           }
 
           awe.povs.update({
