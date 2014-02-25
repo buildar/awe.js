@@ -1103,11 +1103,13 @@ function v8() {
           }
           window.addEventListener('deviceorientation', s1, true);
           // in case event handler never returns - eg. on a pc
-          setTimeout(function() {
-            if (!io.gyro) {
-              finished();
-            }
-          }, 30000)
+          if (this_awe.device_type() == 'pc') {
+            setTimeout(function() {
+              if (!io.gyro) {
+                finished();
+              }
+            }, 5000);
+          }
         }
         else {
           finished();
@@ -1124,11 +1126,13 @@ function v8() {
           }
           window.addEventListener('devicemotion', s2, true);
           // in case event handler never returns - eg. on a pc
-          setTimeout(function() {
-            if (!io.motion) {
-              finished();
-            }
-          }, 30000)
+          if (this_awe.device_type() == 'pc') {
+            setTimeout(function() {
+              if (!io.motion) {
+                finished();
+              }
+            }, 5000);
+          }
         }
         else {
           finished();
