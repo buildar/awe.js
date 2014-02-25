@@ -318,7 +318,8 @@
           value: { x:0, y:0, z:0 },
         });
       }
-      pov.position = this_awe.settings.view('default_camera_position');
+      var position = _extend({x:0, y:0, z:0}, this_awe.settings.view('default_camera_position'));
+      pov.position.set(position.x, position.y, position.z);
       pov.lookAt(this_awe.origin);
 
       pov.constructor.prototype.look_at_projection = function(projection_name) {
