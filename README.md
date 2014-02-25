@@ -10,6 +10,7 @@ Checkout our demos showing AR in standard web browsers:
 - Marker based AR http://youtu.be/X_XR9VbQPeE
 - Oculus Rift based AR http://youtu.be/kIHih4Cc1ag
 - Leap Motion Sensor AR http://youtu.be/mDbvPU4aokQ
+- Google Glass AR http://youtu.be/M97E2m6dRO4
 
 What is the Augmented Web?
 --------------------------
@@ -126,7 +127,7 @@ Example projections.add data structure
 
 What's next
 -----------
-Over the next few weeks and months we will be adding a lot of new examples and tutorials here on github. You can stay tuned by following http://twitter.com/buildAR for more information and don't forget to checkout the video of our Geo AR demo http://youtu.be/OJHgBSRJNJY, our Marker AR demo http://youtu.be/X_XR9VbQPeE, our GRiftAR (gUM + Rift + awe.js) demo http://youtu.be/kIHih4Cc1ag and our Leap Motion Sensor AR demo http://youtu.be/mDbvPU4aokQ 
+Over the next few weeks and months we will be adding a lot of new examples and tutorials here on github. You can stay tuned by following http://twitter.com/buildAR for more information and don't forget to checkout the video of our Geo AR demo http://youtu.be/OJHgBSRJNJY, our Marker AR demo http://youtu.be/X_XR9VbQPeE, our GRiftAR (gUM + Rift + awe.js) demo http://youtu.be/kIHih4Cc1ag, our Leap Motion Sensor AR demo http://youtu.be/mDbvPU4aokQ and our Google Glass AR demo http://youtu.be/M97E2m6dRO4 
 
 Welcome to the future of the web - the Augmented Web!
 
