@@ -132,6 +132,11 @@ Over the next few weeks and months we will be adding a lot of new examples and t
 Welcome to the future of the web - the Augmented Web!
 
 
+Thanks
+------
+We'd like to thank the developers of all the amazing libraries that we've built awe.js upon. First and foremost is https://github.com/mrdoob and all the contributors that created three.js. It's an outstanding library that sits at the heart of our framework. Second is https://github.com/kig for porting ARToolkit to javascript. We'd also like to thank the team from https://github.com/Instrument for making their oculus-bridge project open source and enabling web based interaction with the Rift. And we'd like to thank https://github.com/auduno and all the contributors to the libraries he used for his head and face tracking libs. Without all of these generous developers, the developers that build the Web browsers we rely upon and all of the people that have contributed to all the open Web standards we use, the Augmented Web would not be possible.
+
+
 Known issues
 ------------
 - DeviceOrientation API varies wildly across browsers. Chrome M33 is now spec compliant. Firefox is not necessarily spec compliant but does deliver a good UX. Testing on other browsers and working with all the vendors and the W3C GeoLocation Working Group continues.
