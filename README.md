@@ -1,10 +1,6 @@
 awe.js
 ======
 
-Back our Kickstarter project
-----------------------------
-Please back our Kickstarter project to fund further development on this project. This includes releasing an open source Natural Feature Tracking library designed from the ground up to run in javascript. See http://kck.st/1gnUJex
-
 What is awe.js?
 ---------------
 It's the quickest and easiest way to create Augmented Web applications.
