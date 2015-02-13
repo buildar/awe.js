@@ -31,7 +31,7 @@
 	if (window.awe) {
     this_awe = window.awe;
     
-    this_awe.constructor.prototype.renderers = new v8();
+    this_awe.constructor.prototype.renderers = new awe_v8();
     this_awe.constructor.prototype.renderers.add = function(BODY, HEAD) {
       if (!BODY) { BODY = {}; }
       if (!HEAD) { HEAD = {}; }
@@ -110,7 +110,7 @@
       return this_awe.renderers.view({ id: 'default' });
     }; 
 
-    this_awe.constructor.prototype.lights = new v8();
+    this_awe.constructor.prototype.lights = new awe_v8();
     this_awe.constructor.prototype.lights.add = function(BODY, HEAD) {
       if (!BODY) { BODY = {}; }
       if (!HEAD) { HEAD = {}; }
@@ -165,7 +165,7 @@
       return this.constructor.prototype.add.call(this, { id: id, value: light }); // super
     }
     
-    this_awe.constructor.prototype.video_streams = new v8();
+    this_awe.constructor.prototype.video_streams = new awe_v8();
     this_awe.constructor.prototype.video_streams.add = function(BODY, HEAD) {
       if (this_awe.capabilities.view('gum')) {
         if (!BODY) { BODY = {}; }
@@ -272,7 +272,7 @@
       return this_awe.video_streams.view({ id: 'default' });
     }; 
     
-    this_awe.constructor.prototype.scenes = new v8();
+    this_awe.constructor.prototype.scenes = new awe_v8();
     this_awe.constructor.prototype.scenes.add = function(BODY, HEAD) {
       if (!BODY) { BODY = {}; }
       if (!HEAD) { HEAD = {}; }
@@ -289,7 +289,7 @@
       // TODO walk the scene and stringify to JSON
     }
     
-    this_awe.constructor.prototype.povs = new v8();
+    this_awe.constructor.prototype.povs = new awe_v8();
     this_awe.constructor.prototype.povs.add = function(BODY, HEAD) {
       if (!BODY) { BODY = {}; }
       if (!HEAD) { HEAD = {}; }
@@ -395,7 +395,7 @@
       return this_awe.povs.view({ id: 'default' });
     };
 
-    this_awe.constructor.prototype.pois = new v8();
+    this_awe.constructor.prototype.pois = new awe_v8();
     this_awe.constructor.prototype.pois.add = function(BODY, HEAD) {
       if (!BODY) { BODY = {}; }
       if (!HEAD) { HEAD = {}; }
@@ -479,7 +479,7 @@
       return this.constructor.prototype.delete.call(this, BODY, HEAD); // super
     };
 
-    this_awe.constructor.prototype.projections = new v8();
+    this_awe.constructor.prototype.projections = new awe_v8();
     this_awe.constructor.prototype.projections.list = function(BODY, HEAD) {
       if (!BODY) { BODY = {}; }
       if (!HEAD) { HEAD = {}; }
@@ -499,7 +499,7 @@
       if (this_awe.projections.view(BODY.id)) {
         throw 'BODY.id already exists';
       }
-      if (HEAD.parent && HEAD.parent.object_id && HEAD.parent.object_type && this_awe[HEAD.parent.object_type+'s'] && ''+this_awe[HEAD.parent.object_type+'s'] == 'v8_object')  {
+      if (HEAD.parent && HEAD.parent.object_id && HEAD.parent.object_type && this_awe[HEAD.parent.object_type+'s'] && ''+this_awe[HEAD.parent.object_type+'s'] == 'awe_v8_object')  {
 				try {
 		      parent = this_awe[HEAD.parent.object_type+'s'].view(HEAD.parent.object_id);
 	      }
@@ -767,7 +767,7 @@
       return this.constructor.prototype.delete.call(this, BODY, HEAD); // super
     };
 
-    this_awe.constructor.prototype.textures = new v8();
+    this_awe.constructor.prototype.textures = new awe_v8();
     this_awe.constructor.prototype.textures.add = function(BODY, HEAD) {
       if (!BODY) { BODY = {}; }
       if (!HEAD) { HEAD = {}; }
@@ -872,7 +872,7 @@
       }
     } 
 
-    this_awe.constructor.prototype.materials = new v8();
+    this_awe.constructor.prototype.materials = new awe_v8();
     this_awe.constructor.prototype.materials.add = function(BODY, HEAD) {
       if (!BODY) { BODY = {}; }
       if (!HEAD) { HEAD = {}; }
@@ -924,7 +924,7 @@
       return this.constructor.prototype.add.call(this, { id: id, value: material }); // super
     }
 
-    this_awe.constructor.prototype.sounds = new v8();
+    this_awe.constructor.prototype.sounds = new awe_v8();
     this_awe.constructor.prototype.sounds.add = function(BODY, HEAD) {
       if (this_awe.capabilities.view("audio")) {
         if (!BODY) { BODY = {}; }
@@ -939,7 +939,7 @@
       }
     }
 
-    this_awe.constructor.prototype.tween_functions = new v8();
+    this_awe.constructor.prototype.tween_functions = new awe_v8();
     this_awe.constructor.prototype.tween_functions.add({
       id: 'linear',
       value: function(io) {

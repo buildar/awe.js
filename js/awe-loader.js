@@ -1,5 +1,5 @@
-// BEGIN FILE:  v8.js
-// See: https://github.com/buildar/v8.js/blob/master/v8.js
+// BEGIN FILE:  awe_v8.js
+// See: https://github.com/buildar/awe.js/blob/master/awe_v8.js
 /*
 
   The MIT License
@@ -25,8 +25,8 @@
   THE SOFTWARE.
 
 
-  What is v8.js?
-  --------------
+  What is awe_v8.js?
+  ------------------
 
     It's a simple datastore template that makes it easy to store, manage and
     extend collections of javascript object in a consistent way. 
@@ -34,8 +34,8 @@
     Trust me, it's funkier than that sounds! 8)
 
 
-  Why is it called v8?
-  --------------------
+  Why is it called awe_v8?
+  ------------------------
 
     Each datastore by default is designed to support a standard set of "8 verbs".
 
@@ -70,11 +70,11 @@
     either an object or an array of 0 or more objects.
 
 
-  How do you use v8? 
-  ------------------
+  How do you use awe_v8? 
+  ----------------------
 
-  // create a v8 datastore
-  var my_datastore = new v8();
+  // create a awe_v8 datastore
+  var my_datastore = new awe_v8();
 
   // add one object to your datastore
   console.log("add an object (return new id)");
@@ -141,15 +141,15 @@
 
 */
 
-// override this to customise how you want your v8 template to behave
+// override this to customise how you want your awe_v8 template to behave
 var V8_CONFIG = {
   default_id_field: "id",
   default_output_format: "js",
   debug: false,
 };
 
-// below here is the template v8 object implementation
-function v8() {
+// below here is the template awe_v8 object implementation
+function awe_v8() {
   var ID_FIELD = "id";
   try {
     if (V8_CONFIG.default_id_field !== undefined) {
@@ -164,7 +164,7 @@ function v8() {
     }
   }
   catch(e) { /* TODO */ }
-  var v8_object = new v8_template();
+  var awe_v8_object = new awe_v8_template();
   var _return = function(return_flag, return_values, errors, output_format) {
     if (output_format === undefined) {
       output_format = OUTPUT_FORMAT;
@@ -222,7 +222,7 @@ function v8() {
       return io[ID_FIELD];
     }
   };
-  function v8_template() { 
+  function awe_v8_template() { 
     var data = {};
     if (V8_CONFIG.debug !== undefined) {
       this.debug = V8_CONFIG.debug;
@@ -727,16 +727,16 @@ function v8() {
     };
     
     this.constructor.prototype.toString = function() {
-    	return 'v8_object'
+    	return 'awe_v8_object'
     };
 
     return this;
   };
-  return v8_object;
+  return awe_v8_object;
 }
-// END FILE:  v8.js
+// END FILE:  awe_v8.js
 
-// BEGIN FILE:  awe.js loader file
+// BEGIN FILE:  awe-loader.js file
 /*
 
   The MIT License
@@ -771,9 +771,9 @@ function v8() {
     function awe() {
       var initialized = false;
 
-      this.constructor.prototype.capabilities = new v8();
+      this.constructor.prototype.capabilities = new awe_v8();
 
-      this.constructor.prototype.settings = new v8();
+      this.constructor.prototype.settings = new awe_v8();
       // set default settings
       // NOTE: override this in your code to customize how you want your awe.js app to behave
       
@@ -821,7 +821,7 @@ function v8() {
         },
       ]);
 
-      this.constructor.prototype.events = new v8();
+      this.constructor.prototype.events = new awe_v8();
       this.constructor.prototype.events.add = function(BODY, HEAD) {
         if (!BODY) { BODY = {}; }
         if (!HEAD) { HEAD = {}; }
@@ -866,9 +866,9 @@ function v8() {
         return this.constructor.prototype.delete.call(this, BODY, HEAD); // super
       }
 
-      this.constructor.prototype.pois = new v8();
+      this.constructor.prototype.pois = new awe_v8();
 
-      this.constructor.prototype.plugins = new v8();
+      this.constructor.prototype.plugins = new awe_v8();
       this.constructor.prototype.plugins.add = function(BODY, HEAD) {
         if (!BODY) { BODY = {}; }
         if (!HEAD) { HEAD = {}; }  
@@ -1420,4 +1420,4 @@ function v8() {
     this_awe.AUTO_DETECT_DEVICE_TYPE = true;
   }
 })(window);
-// END FILE:  awe.js loader file
+// END FILE:  awe-loader.js file
