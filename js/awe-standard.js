@@ -1118,15 +1118,15 @@
 			return io;
 		}
 
-    function _set_mesh_children_visibility(mesh_children, visible) {
-      for (var proj in mesh_children) {
-        var child = mesh_children[proj];
-        child.visible = visible;
-        if (child.children) {
-          _set_mesh_children_visibility(child.children, visible);
-        }
-      }
-    }
+		function _set_mesh_children_visibility(mesh_children, visible) {
+			for (var proj in mesh_children) {
+				var child = mesh_children[proj];
+				child.visible = visible;
+		    if (child.children) {
+		    	_set_mesh_children_visibility(child.children, visible);
+		    }
+		  }
+		}
 		
 		function _update_mesh_io(io, mesh, new_object) {
 			if (!io) {
@@ -1251,13 +1251,13 @@
 			}
 			if (io.visible !== undefined) {
 				var io_visible = io.visible;
-        if (mesh.visible !== io_visible) {
-          mesh.visible = io_visible;
-          if (mesh.children) {
-            _set_mesh_children_visibility(mesh.children, io_visible);
-          }
-          render = true;
-        }
+				if (mesh.visible !== io_visible) {
+				  mesh.visible = io_visible;
+				  if (mesh.children) {
+				  	_set_mesh_children_visibility(mesh.children, io_visible);
+				  }
+				  render = true;
+				}
 			}
 			if (io.cast_shadow !== undefined) {
 				mesh.castShadow = io.cast_shadow;
