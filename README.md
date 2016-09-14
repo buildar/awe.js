@@ -145,4 +145,4 @@ Known issues
 - Video textures don't work on Chrome M32/M33. Bug raised.
 - Spatialised audio has problems on Android browsers. Debugging continues.
 - Spatialised audio doesn't play on Firefox when location is 0,0,0. Bug raised.
-- Examples can take a while to load on some networks so we they need a nice loading indicator/spinner.
+- Examples can take a while to load on some networks so they need a nice loading indicator/spinner.
